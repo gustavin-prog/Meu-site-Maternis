@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Maternis - Diário da Gestação</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#fff7fb;
+}
+
+.diario{
+
+    max-width:800px;
+    margin:50px auto;
+    background:white;
+    padding:35px;
+    border-radius:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+
+}
+
+h1{
+
+    color:#d85b8b;
+    text-align:center;
+    margin-bottom:10px;
+
+}
+
+p{
+
+    color:#666;
+    text-align:center;
+    margin-bottom:25px;
+
+}
+
+textarea{
+
+    width:100%;
+    height:320px;
+    border:2px solid #f3bfd5;
+    border-radius:15px;
+    padding:15px;
+    resize:none;
+    outline:none;
+    font-size:16px;
+
+}
+
+textarea:focus{
+
+    border-color:#d85b8b;
+
+}
+
+.botoes{
+
+    margin-top:20px;
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+
+}
+
+button{
+
+    background:#d85b8b;
+    color:white;
+    border:none;
+    padding:12px 25px;
+    border-radius:20px;
+    cursor:pointer;
+    font-size:15px;
+    transition:.3s;
+
+}
+
+button:hover{
+
+    background:#b94370;
+
+}
+
+.btn-limpar{
+
+    background:#888;
+
+}
+
+.btn-limpar:hover{
+
+    background:#555;
+
+}
+
+.status{
+
+    margin-top:20px;
+    text-align:center;
+    color:green;
+    font-weight:bold;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="diario">
+
+    <h1>📖 Diário da Gestação</h1>
+
+    <p>
+        Registre seus sentimentos, sintomas, emoções e momentos especiais durante a gravidez.
+    </p>
+
+    <textarea
+        id="nota"
+        placeholder="Escreva aqui como foi o seu dia..."></textarea>
+
+    <div class="botoes">
+
+        <button onclick="salvarNota()">
+            💾 Salvar anotação
+        </button>
+
+        <button class="btn-limpar" onclick="limparNota()">
+            🗑 Limpar
+        </button>
+
+    </div>
+
+    <div class="status" id="status"></div>
+
+</div>
+
+<script>
+
+const textarea = document.getElementById("nota");
+const status = document.getElementById("status");
+
+// Carrega a anotação salva quando abrir a página
+window.onload = function(){
+
+    let nota = localStorage.getItem("diarioGestacao");
+
+    if(nota != null){
+
+        textarea.value = nota;
+
+    }
+
+}
+
+// Salvar anotação
+function salvarNota(){
+
+    localStorage.setItem("diarioGestacao", textarea.value);
+
+    status.innerHTML = "✅ Anotação salva com sucesso!";
+
+    setTimeout(function(){
+
+        status.innerHTML = "";
+
+    },3000);
+
+}
+
+// Limpar anotação
+function limparNota(){
+
+    let confirmar = confirm("Deseja apagar sua anotação?");
+
+    if(confirmar){
+
+        textarea.value = "";
+
+        localStorage.removeItem("diarioGestacao");
+
+        status.innerHTML = "🗑 Anotação apagada.";
+
+        setTimeout(function(){
+
+            status.innerHTML = "";
+
+        },3000);
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>

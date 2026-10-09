@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Maternis - Meu Bebê</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#fff7fb;
+}
+
+.container{
+
+    max-width:800px;
+    margin:40px auto;
+    padding:20px;
+
+}
+
+h1{
+
+    text-align:center;
+    color:#d85b8b;
+    margin-bottom:10px;
+
+}
+
+.subtitulo{
+
+    text-align:center;
+    color:#666;
+    margin-bottom:30px;
+
+}
+
+.card{
+
+    background:white;
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+
+}
+
+label{
+
+    display:block;
+    margin-top:18px;
+    margin-bottom:8px;
+    color:#a83d69;
+    font-weight:bold;
+
+}
+
+input, textarea, select{
+
+    width:100%;
+    padding:12px;
+    border:2px solid #f2c2d6;
+    border-radius:12px;
+    outline:none;
+    font-size:15px;
+
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+
+    border-color:#d85b8b;
+
+}
+
+textarea{
+
+    resize:none;
+    height:100px;
+
+}
+
+button{
+
+    margin-top:25px;
+    width:100%;
+    background:#d85b8b;
+    color:white;
+    border:none;
+    padding:15px;
+    border-radius:15px;
+    cursor:pointer;
+    font-size:17px;
+    transition:.3s;
+
+}
+
+button:hover{
+
+    background:#b94370;
+
+}
+
+.resumo{
+
+    margin-top:30px;
+    background:white;
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+
+}
+
+.resumo h2{
+
+    color:#d85b8b;
+    margin-bottom:15px;
+
+}
+
+.info{
+
+    margin:10px 0;
+    color:#555;
+    font-size:17px;
+
+}
+
+.status{
+
+    text-align:center;
+    color:green;
+    font-weight:bold;
+    margin-top:15px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>👶 Meu Bebê</h1>
+
+<p class="subtitulo">
+Cadastre as informações do seu bebê e acompanhe seu crescimento.
+</p>
+
+<div class="card">
+
+<label>Nome do bebê</label>
+<input type="text" id="nome">
+
+<label>Data de nascimento</label>
+<input type="date" id="nascimento">
+
+
+<label>Peso (kg)</label>
+<input type="number" step="0.1" id="peso">
+
+<label>Altura (cm)</label>
+<input type="number" id="altura">
+
+<label>Sexo</label>
+
+<select id="sexo">
+
+<option>Menino</option>
+<option>Menina</option>
+
+</select>
+
+<label>Observações</label>
+
+<textarea id="obs"></textarea>
+
+<button onclick="salvarDados()">
+
+💾 Salvar informações
+
+</button>
+
+<div class="status" id="status"></div>
+
+</div>
+
+<div class="resumo">
+
+<h2>❤️ Resumo do Bebê</h2>
+
+<p class="info" id="rNome"></p>
+<p class="info" id="rNascimento"></p>
+<p class="info" id="rIdade"></p>
+<p class="info" id="rPeso"></p>
+<p class="info" id="rAltura"></p>
+<p class="info" id="rSexo"></p>
+<p class="info" id="rObs"></p>
+
+</div>
+
+</div>
+
+<script>
+
+// Carregar dados ao abrir a página
+window.onload = function(){
+
+    const dados = localStorage.getItem("bebe");
+
+    if(dados){
+
+        const bebe = JSON.parse(dados);
+
+        nome.value = bebe.nome;
+        nascimento.value = bebe.nascimento;
+        peso.value = bebe.peso;
+        altura.value = bebe.altura;
+        sexo.value = bebe.sexo;
+        obs.value = bebe.obs;
+
+        atualizarResumo();
+
+    }
+
+}
+
+// Calcula idade automaticamente
+function calcularIdade(dataNascimento){
+
+    const hoje = new Date();
+    const nascimento = new Date(dataNascimento);
+
+    let anos = hoje.getFullYear() - nascimento.getFullYear();
+    let meses = hoje.getMonth() - nascimento.getMonth();
+    let dias = hoje.getDate() - nascimento.getDate();
+
+    if(dias < 0){
+        meses--;
+        const ultimoMes = new Date(hoje.getFullYear(), hoje.getMonth(), 0);
+        dias += ultimoMes.getDate();
+    }
+
+    if(meses < 0){
+        anos--;
+        meses += 12;
+    }
+
+    if(anos > 0){
+
+        return `${anos} ano${anos>1?"s":""} e ${meses} mês${meses!=1?"es":""}`;
+
+    }
+
+    if(meses > 0){
+
+        return `${meses} mês${meses>1?"es":""} e ${dias} dia${dias!=1?"s":""}`;
+
+    }
+
+    return `${dias} dia${dias!=1?"s":""}`;
+
+}
+
+
+// Salvar
+function salvarDados(){
+
+    const bebe = {
+
+        nome:nome.value,
+        nascimento:nascimento.value,
+        peso:peso.value,
+        altura:altura.value,
+        sexo:sexo.value,
+        obs:obs.value
+
+    };
+
+    localStorage.setItem("bebe",JSON.stringify(bebe));
+
+    atualizarResumo();
+
+    status.innerHTML="✅ Dados salvos com sucesso!";
+
+    setTimeout(()=>{
+
+        status.innerHTML="";
+
+    },3000);
+
+}
+
+
+// Atualizar resumo
+function atualizarResumo(){
+
+    const bebe = JSON.parse(localStorage.getItem("bebe"));
+
+    const idade = calcularIdade(bebe.nascimento);
+
+    rNome.innerHTML = "👶 <strong>Nome:</strong> " + bebe.nome;
+    rNascimento.innerHTML = "📅 <strong>Nascimento:</strong> " + bebe.nascimento;
+    rIdade.innerHTML = "🎂 <strong>Idade:</strong> " + idade;
+    rPeso.innerHTML = "⚖️ <strong>Peso:</strong> " + bebe.peso + " kg";
+    rAltura.innerHTML = "📏 <strong>Altura:</strong> " + bebe.altura + " cm";
+    rSexo.innerHTML = "🚻 <strong>Sexo:</strong> " + bebe.sexo;
+    rObs.innerHTML = "💬 <strong>Observações:</strong> " + bebe.obs;
+
+}
+
+</script>
+
+</body>
+</html>

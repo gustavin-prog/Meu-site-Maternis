@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maternis - Gestação</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff7fb;
+        }
+
+        .gestacao {
+            padding: 40px;
+            min-height: 100vh;
+        }
+
+        .titulo {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .titulo h1 {
+            color: #d85b8b;
+            font-size: 35px;
+            margin-bottom: 10px;
+        }
+
+        .titulo p {
+            color: #666;
+            font-size: 17px;
+        }
+
+        /* Progresso */
+        .progresso {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px #0002;
+            margin-bottom: 30px;
+        }
+
+        .progresso h2 {
+            color: #a83d69;
+            margin-bottom: 20px;
+        }
+
+        .semana h3 {
+            color: #d85b8b;
+            margin-bottom: 10px;
+        }
+
+        .semana p {
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .barra {
+            height: 18px;
+            background: #eee;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .preenchimento {
+            width: 0%;
+            height: 100%;
+            background: #e88bb0;
+            transition: width 0.5s ease-in-out;
+        }
+
+        /* Configuração de Data */
+        .config-data {
+            background: #fff0f5;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .config-data label {
+            color: #a83d69;
+            font-weight: bold;
+        }
+
+        .config-data input {
+            padding: 8px 12px;
+            border: 1px solid #d85b8b;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        /* Cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px #0002;
+        }
+
+        .card span {
+            font-size: 45px;
+        }
+
+        .card h3 {
+            color: #d85b8b;
+            margin: 15px 0;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .card a {
+            background: #d85b8b;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: .3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .card a:hover {
+            background: #b94370;
+        }
+
+        /* Agenda */
+        .agenda {
+            background: white;
+            margin-top: 40px;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px #0002;
+        }
+
+        .agenda h2 {
+            color: #a83d69;
+            margin-bottom: 20px;
+        }
+
+        .evento {
+            display: flex;
+            gap: 20px;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .evento strong {
+            color: #d85b8b;
+        }
+
+        .evento p {
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="gestacao">
+
+        <div class="titulo">
+            <h1>🤰 Minha Gestação</h1>
+            <p>Acompanhe cada fase da gravidez e o desenvolvimento do bebê.</p>
+        </div>
+
+        <div class="progresso">
+            <h2>Progresso da gestação</h2>
+
+            <!-- Seleção da DUM -->
+            <div class="config-data">
+                <label for="dumInput">Data da Última Menstruação (DUM):</label>
+                <input type="date" id="dumInput" onchange="salvarEAtualizar()">
+            </div>
+
+            <div class="semana">
+                <h3 id="semanaTexto">Semana 0</h3>
+                <p id="trimestreTexto">Informe a data para calcular.</p>
+
+                <div class="barra">
+                    <div class="preenchimento" id="barraProgresso"></div>
+                </div>
+
+                <span id="semanasContador">0 de 40 semanas</span>
+            </div>
+        </div>
+
+        <div class="cards">
+            <div class="card">
+                <span>👶</span>
+                <h3>Informações do bebê</h3>
+                <p>Veja as informações do seu bebê</p>
+                <a href="bebe.html">Ver detalhes</a>
+            </div>
+
+            <div class="card">
+                <span>🩺</span>
+                <h3>Consultas e exames</h3>
+                <p>Organize consultas do pré-natal, exames e acompanhamentos médicos.</p>
+                <a href="consultas.html">Ver consultas</a>
+            </div>
+
+            <div class="card">
+                <span>🥗</span>
+                <h3>Cuidados na gestação</h3>
+                <p>Confira dicas de alimentação, saúde e bem-estar durante a gravidez.</p>
+                <a href="cuidados.html">Ver cuidados</a>
+            </div>
+
+            <div class="card">
+                <span>📖</span>
+                <h3>Diário da gestação</h3>
+                <p>Registre sentimentos, sintomas e momentos importantes da gravidez.</p>
+                <a href="diario.html">Ver Diário</a>
+            </div>
+        </div>
+
+        <div class="agenda">
+            <h2>📅 Próximos eventos</h2>
+
+            <div class="evento">
+                <strong>15/08</strong>
+                <p>Consulta pré-natal</p>
+            </div>
+
+            <div class="evento">
+                <strong>22/08</strong>
+                <p>Ultrassom morfológico</p>
+            </div>
+        </div>
+
+    </section>
+<div class="config-data">
+    <label for="metodoCalculo">Calcular progresso por:</label>
+    <select id="metodoCalculo" onchange="alternarCampos()" class="form-select">
+        <option value="dum">Data da Última Menstruação (DUM)</option>
+        <option value="ultrassom">Semanas informadas no Ultrassom</option>
+    </select>
+
+    <!-- Campo DUM -->
+    <div id="campoDUM" class="mt-2">
+        <label for="dumInput">Data da DUM:</label>
+        <input type="date" id="dumInput" onchange="salvarEAtualizar()">
+    </div>
+
+    <!-- Campo Ultrassom -->
+    <div id="campoUltrassom" class="mt-2" style="display: none;">
+        <label for="semanasUS">Semanas no dia do exame:</label>
+        <input type="number" id="semanasUS" min="1" max="40" placeholder="Ex: 8" onchange="salvarEAtualizar()" style="width: 80px;">
+        
+        <label for="dataUS" class="ms-2">Data do exame:</label>
+        <input type="date" id="dataUS" onchange="salvarEAtualizar()">
+    </div>
+</div>
+
+<script>
+function alternarCampos() {
+    const metodo = document.getElementById("metodoCalculo").value;
+    document.getElementById("campoDUM").style.display = metodo === "dum" ? "block" : "none";
+    document.getElementById("campoUltrassom").style.display = metodo === "ultrassom" ? "block" : "none";
+    salvarEAtualizar();
+}
+
+function calcularGestacao() {
+    const metodo = document.getElementById("metodoCalculo").value;
+    let semanasTotais = 0;
+    let diasRestantes = 0;
+
+    if (metodo === "dum") {
+        const dumValor = document.getElementById("dumInput").value;
+        if (!dumValor) return;
+
+        const inicio = new Date(dumValor + "T00:00:00");
+        const hoje = new Date();
+        const diffDias = Math.floor((hoje - inicio) / (1000 * 60 * 60 * 24));
+
+        if (diffDias < 0) return;
+        semanasTotais = Math.floor(diffDias / 7);
+        diasRestantes = diffDias % 7;
+    } else {
+        const semanasInformadas = parseInt(document.getElementById("semanasUS").value);
+        const dataExameValor = document.getElementById("dataUS").value;
+
+        if (!semanasInformadas || !dataExameValor) return;
+
+        const dataExame = new Date(dataExameValor + "T00:00:00");
+        const hoje = new Date();
+        const diffDiasExame = Math.floor((hoje - dataExame) / (1000 * 60 * 60 * 24));
+
+        const diasIniciais = (semanasInformadas * 7) + diffDiasExame;
+        if (diasIniciais < 0) return;
+
+        semanasTotais = Math.floor(diasIniciais / 7);
+        diasRestantes = diasIniciais % 7;
+    }
+
+    atualizarInterface(semanasTotais, diasRestantes);
+}
+
+function atualizarInterface(semanas, dias) {
+    const semanasLimitadas = Math.min(Math.max(semanas, 0), 40);
+    const porcentagem = (semanasLimitadas / 40) * 100;
+
+    let trimestre = "";
+    if (semanas < 13) {
+        trimestre = "Você está no primeiro trimestre da gestação.";
+    } else if (semanas < 27) {
+        trimestre = "Você está no segundo trimestre da gestação.";
+    } else {
+        trimestre = "Você está no terceiro trimestre da gestação.";
+    }
+
+    document.getElementById("semanaTexto").innerText = `Semana ${semanas}` + (dias > 0 ? ` + ${dias} dias` : "");
+    document.getElementById("trimestreTexto").innerText = trimestre;
+    document.getElementById("semanasContador").innerText = `${semanas} de 40 semanas`;
+    document.getElementById("barraProgresso").style.width = `${porcentagem}%`;
+}
+
+function salvarEAtualizar() {
+    const dados = {
+        metodo: document.getElementById("metodoCalculo").value,
+        dum: document.getElementById("dumInput").value,
+        semanasUS: document.getElementById("semanasUS").value,
+        dataUS: document.getElementById("dataUS").value
+    };
+    localStorage.setItem("maternis_dados_gestacao", JSON.stringify(dados));
+    calcularGestacao();
+}
+
+window.onload = function () {
+    const salvos = JSON.parse(localStorage.getItem("maternis_dados_gestacao"));
+    if (salvos) {
+        document.getElementById("metodoCalculo").value = salvos.metodo || "dum";
+        document.getElementById("dumInput").value = salvos.dum || "";
+        document.getElementById("semanasUS").value = salvos.semanasUS || "";
+        document.getElementById("dataUS").value = salvos.dataUS || "";
+        alternarCampos();
+    }
+};
+</script>
+    
+
+</body>
+
+</html>

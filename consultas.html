@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Consultas - Maternis</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<style>
+
+body{
+    background:#F8F4FF;
+    font-family:'Poppins',sans-serif;
+}
+
+.topo{
+    background:linear-gradient(135deg,#F78FB3,#D980FA);
+    color:white;
+    padding:25px;
+    border-bottom-left-radius:30px;
+    border-bottom-right-radius:30px;
+    text-align:center;
+}
+
+.card{
+    border:none;
+    border-radius:18px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.btn-salvar{
+    background:#D980FA;
+    color:white;
+}
+
+.btn-salvar:hover{
+    background:#c15df2;
+    color:white;
+}
+
+.consulta{
+    background:white;
+    border-radius:15px;
+    padding:15px;
+    margin-top:15px;
+    box-shadow:0 3px 10px rgba(0,0,0,.06);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="topo">
+<h3>📅 Minhas Consultas</h3>
+</div>
+
+<div class="container mt-4">
+
+<div class="card p-4">
+
+<div class="mb-3">
+<label>Médico</label>
+<input type="text" class="form-control" id="medico">
+</div>
+
+<div class="mb-3">
+<label>Data</label>
+<input type="date" class="form-control" id="data">
+</div>
+
+<div class="mb-3">
+<label>Horário</label>
+<input type="time" class="form-control" id="hora">
+</div>
+
+<button class="btn btn-salvar w-100" onclick="salvarConsulta()">
+Salvar Consulta
+</button>
+
+</div>
+
+<div id="lista" class="mt-4"></div>
+
+</div>
+
+<script>
+
+let consultas = JSON.parse(localStorage.getItem("consultas")) || [];
+
+function salvarConsulta(){
+
+const medico=document.getElementById("medico").value;
+const data=document.getElementById("data").value;
+const hora=document.getElementById("hora").value;
+
+if(!medico || !data || !hora){
+alert("Preencha todos os campos.");
+return;
+}
+
+consultas.push({
+medico,
+data,
+hora
+});
+
+localStorage.setItem("consultas",JSON.stringify(consultas));
+
+document.getElementById("medico").value="";
+document.getElementById("data").value="";
+document.getElementById("hora").value="";
+
+mostrarConsultas();
+
+}
+
+function mostrarConsultas(){
+
+const lista=document.getElementById("lista");
+
+lista.innerHTML="";
+
+if(consultas.length==0){
+
+lista.innerHTML="<p class='text-center text-muted'>Nenhuma consulta cadastrada.</p>";
+
+return;
+
+}
+
+consultas.forEach((c,index)=>{
+
+lista.innerHTML+=`
+
+<div class="consulta">
+
+<h5>👩‍⚕️ ${c.medico}</h5>
+
+<p>
+<b>📅 Data:</b> ${c.data}<br>
+<b>🕒 Horário:</b> ${c.hora}
+</p>
+
+<button class="btn btn-danger btn-sm" onclick="excluirConsulta(${index})">
+
+Excluir
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+function excluirConsulta(index){
+
+consultas.splice(index,1);
+
+localStorage.setItem("consultas",JSON.stringify(consultas));
+
+mostrarConsultas();
+
+}
+
+mostrarConsultas();
+
+</script>
+
+</body>
+</html>
